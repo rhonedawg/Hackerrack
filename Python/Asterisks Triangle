@@ -1,0 +1,6 @@
+def StairCase(n): 
+  x = 1 
+  for i in range(n): 
+    print( ' ' * (n-1) + '#' * x) 
+    n = n - 1 
+    x = x + 1
