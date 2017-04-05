@@ -1,0 +1,53 @@
+//Ross Rhone
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+  
+    static boolean isAnagram(String a, String b) {
+        
+        b = b.toLowerCase();
+        a = a.toLowerCase();
+        
+        int j = 0;
+        
+        StringBuilder sb1 = new StringBuilder(a);
+        StringBuilder sb = new StringBuilder();
+        
+        if(a.length() != b.length()){
+            return false;
+        }
+        
+        for(int i = 0 ; i <= a.length() - 1; i++){
+            
+            String s = Character.toString(b.charAt(i));
+            
+            if(sb1.indexOf(s) != -1){
+
+                sb1.deleteCharAt(sb1.indexOf(s));
+                sb.append(s);
+            }
+        }
+        String check = sb1.toString();
+        String check1 = sb.toString();
+        
+        if(check.equals("") && check1.equals(b)){
+             return true;
+
+        }
+        else{
+            return false;
+        }
+        
+    }
+    
+       public static void main(String[] args) {
+    
+        Scanner scan = new Scanner(System.in);
+        String a = scan.next();
+        String b = scan.next();
+        scan.close();
+        boolean ret = isAnagram(a, b);
+        System.out.println( (ret) ? "Anagrams" : "Not Anagrams" );
+    }
+}
