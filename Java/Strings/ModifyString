@@ -1,0 +1,148 @@
+//Ross Rhone
+//Programming Test
+
+
+/*
+ * PP 1.6: In the language of your choice, write a method that modifies a string using the following rules:
+ * 1. Each word in the input string is replaced with the following: the first letter of the word, the count of
+ * distinct letters between the first and last letter, and the last letter of the word. For example,
+ * “Automotive parts" would be replaced by "A6e p3s".
+ * 2. A "word" is defined as a sequence of alphabetic characters, delimited by any non-alphabetic
+ * characters.
+ * 3. Any non-Alphabetical character in the input string should appear in the output string in its original
+ * relative location.
+ *
+ *
+ *
+ * This program only takes in one line from the scanner.
+ * This will take 0(N) time to run                                                                        */
+
+import java.io.*;
+import java.util.*;
+
+class ModifyString {
+
+    public static StringBuilder modStr;
+    public static ArrayList<Character> test;
+
+
+    public static void main(String[] args) {
+      Scanner sc=new Scanner(System.in);
+      String a = sc.nextLine();
+      modStr = new StringBuilder();
+      test = new ArrayList<Character>();
+      Modify(a);
+
+    }
+
+       public enum State
+       {
+         STARTWORD, ENDSTR, SPACE, NONALPA, DISTINCT, ONELET, SPACEONELET,
+         MULTISPACELET,MULTISPACE
+
+
+       }
+
+       public static void CreateString(State state, int i, int distinctCount, String str){
+           switch(state){
+             case ENDSTR:
+               modStr.append(test.size());
+               modStr.append(str.charAt(i));
+               break;
+             case SPACE:
+               //startOfWord = 1;
+               modStr.append(distinctCount-1);
+               modStr.append(str.charAt(i-1));
+               modStr.append(" ");
+               distinctCount = 0;
+               test.clear();
+            case STARTWORD:
+                break;
+            case ONELET:
+              modStr.append(str.charAt(i));
+              modStr.append(0);
+              modStr.append(str.charAt(i));
+            case SPACEONELET:
+              modStr.append(" ");
+              break;
+            case MULTISPACE:
+              break; //ignore multispaces
+
+
+           }
+       }
+
+      public static void Modify(String str){
+
+        State state = null;
+
+        int length = str.length();
+
+        String[] splited = str.split("\\s+"); //this will spilt up into words...
+
+        int distinctCount = 0;
+        int startOfWord = 1;
+        int space = 0;
+        int oneletter = 0;
+        int j = 0; //size of words in string
+
+        for(int i = 0; i < length; i++){
+
+          if(str.charAt(i) == ' ' && space == 1){           //multiple space
+              state = State.MULTISPACE;
+              CreateString(state,i,distinctCount,str);
+              continue;
+          }
+
+          if(splited[j].length() == 1 && oneletter == 0){    //one letter word
+            state = State.ONELET;
+            CreateString(state, i, distinctCount, str);
+            oneletter = 1;
+            startOfWord = 0;
+            space = 0;
+            continue;
+          }
+
+          if(startOfWord == 1){                             //beginning of a word
+            modStr.append(str.charAt(i));
+            startOfWord = 0;
+            continue;
+          }
+
+          if(i == (length-1)){                              //very end of the string
+            state = State.ENDSTR;
+            CreateString(state,i, distinctCount, str);
+            continue;
+          }
+
+          if(str.charAt(i) == ' ' && space == 0){           //start of a new word
+              space = 1;
+              oneletter = 0;
+              j++;
+              if(state == State.ONELET){
+                 state = State.SPACEONELET;
+              }
+              else{
+                state = State.SPACE;
+                CreateString(state,i,distinctCount,str);
+              }
+              startOfWord = 1;
+              continue;
+          }
+
+          if(!Character.isLetterOrDigit(str.charAt(i))){    //non-Alphabetical characters
+            modStr.append(str.charAt(i));
+            System.out.println(str.charAt(i));
+          }
+
+          if(!test.contains(str.charAt(i))){                //check for a distinct letter and add it in list
+              test.add(str.charAt(i));
+              distinctCount += 1;
+              space = 0;
+          }
+
+        }
+
+        System.out.println(modStr);
+    }
+}
