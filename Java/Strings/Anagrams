@@ -1,3 +1,28 @@
+/*
+Two strings  and  are called anagrams if they consist same characters, but may be in different orders. So the list of anagrams of  is .
+
+Given two strings, print Anagrams if they are anagrams, print Not Anagrams if they are not. The strings may consist at most  English characters; the comparison should NOT be case sensitive.
+
+This exercise will verify that you can sort the characters of a string, or compare frequencies of characters.
+
+Sample Input 0
+
+anagram
+margana
+Sample Output 0
+
+Anagrams
+
+Sample Input 1
+
+anagramm
+marganaa
+Sample Output 1:
+
+Not Anagrams
+*/
+
+
 //Ross Rhone
 import java.io.*;
 import java.util.*;
