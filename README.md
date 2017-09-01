@@ -1,2 +1,2 @@
-# Hackerrack
-All of my practice with Hackerrack
+# Hackerrank
+All of my practice with Hackerrank
